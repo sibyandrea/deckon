@@ -1,67 +1,74 @@
-# importing required modules 
-import txt_parser
-
-
 #credits: https://www.geeksforgeeks.org/extract-text-from-pdf-file-using-python/
 #         https://www.tutorialspoint.com/How-do-I-wrap-a-string-in-a-file-in-Python#:~:text=To%20wrap%20a%20string%20in,the%20string%20to%20the%20file.
 #         https://www.tutorialspoint.com/extract-hyperlinks-from-pdf-in-python#:~:text=To%20extract%20the%20hyperlinks%20from%20the%20PDF%20we%20generally%20use,print%20it%20on%20the%20screen.
-import re
+
+# importing required modules 
+import txt_parser
 import PyPDF2
+from cleantext import clean
 
-def find_url(string):
-    # Find all the Strings that match the pattern
-    regex = r"(https?://\S+)"
-    urls = re.findall(regex, string)
-    return urls
 
-# Path to the PDF file
-pdf_path = '/Users/andreasiby/Documents/comms/deckon/dataset/WICC03312024.pdf'
 
-# Creating a PDF reader object
-with open(pdf_path, 'rb') as file:
-    reader = PyPDF2.PdfReader(file)
-    
-    # Printing number of pages in PDF file
-    print("LENGTH:")
-    print(len(reader.pages))
-    print("STARING ...")
-    
-    text = []
-    
-    # Iterate through each page to add a non-empty line
-    for i in range(len(reader.pages)):
-        # Getting a specific page from the PDF file
-        page = reader.pages[i]
+def read_pdf(pdf_path):
+    # Creating a PDF reader object
+    with open(pdf_path, 'rb') as file:
+        reader = PyPDF2.PdfReader(file)
         
-        # Extracting text from page
-        page_text = page.extract_text()
+        # Printing number of pages in PDF file
+        print("LENGTH:")
+        print(len(reader.pages))
+        print("STARING ...")
         
-        # Parsing through each page of text
-        for line in page_text.split('\n'):
-            if line.strip():  # If line is not empty
-                text.append(line.strip())
-                print(find_url(line.strip()))
+        text = []
+        
+        
+        # Iterate through each page to add a non-empty line
+        for i in range(len(reader.pages)):
+            # Getting a specific page from the PDF file
+            page = reader.pages[i]
 
-org = txt_parser.getOrg(text)  # Getting the organization
-print(org)  # Print the organization if you have the txt_parser module
+            # Extracting text from page
+            page_text = page.extract_text()
+            
+            # Parsing through each page of text
+            #if there is a visible url, the parser will save it 
+            for line in page_text.split('\n'):
+                if line.strip():  # If line is not empty
 
+                    text.append(txt_parser.remove_emoji(line.strip()))
+                    # print(txt_parser.find_url(line.strip()))
 
+    # Print the organization if you have the txt_parser module
+    org = txt_parser.getOrg(text)  # Getting the organization
+    print(org) 
 
-#storing parsed text into a txt for vizualization >>>>>>>>
-# name_index = path.rindex("/") + 1 #obtaining the naming convention for the file --- storage?
-# file_name = path[name_index : -4]
+    #calling on testing
+    if True:
+        testing_txt_file(pdf_path=pdf_path, text=text)
  
+def testing_txt_file(pdf_path, text):
+    # # TESTING PURPOSES
+    #storing parsed text into a txt for vizualization >>>>>>>>
+    name_index = pdf_path.rindex("/") + 1 #obtaining the naming convention for the file --- storage?
+    file_name = pdf_path[name_index : -4]
 
-# # TESTING PURPOSES
-# file = open(file_name, "w")
+    file = open(file_name, "w")
 
-# # Write string to file
-# txt = ""
-# for l in text:
-#   txt += l
-#   txt += "\n"
+    # Write string to file
+    txt = ""
+    for l in text:
+      txt += l
+      txt += "\n"
 
-# file.write(txt)
-# # Close the file
-# file.close()
+    file.write(txt)
+    # Close the file
+    file.close()
+
+
+
+
+def parsing_text(text_list):
+    pass
+
+
 
