@@ -1,7 +1,6 @@
 import re
 
-
-def getOrg(lines):
+def get_org_and_sub(lines):
   '''
   Function which reads list of strings and returns the organization the email came from
 
@@ -15,14 +14,37 @@ def getOrg(lines):
   b = header[index:]
   b = b[: b.find("]")] 
 
-  return b
+  sub = lines[1]
+
+  return b, sub
 
 
 def find_url(string):
     # Find all the Strings that match the pattern
     regex = r"(https?://\S+)"
     urls = re.findall(regex, string)
+    urls = ", ".join(urls)
     return urls
+
+def remove_url(string):
+    # Find all the Strings that match the pattern
+    regex = r"(https?://\S+)"
+    urls = re.findall(regex, string)
+    for e in urls:
+        string = string.replace(e,"")
+    
+    return string
+
+def removeNonAscii(s): 
+   #credit: https://stackoverflow.com/questions/20183669/remove-formatting-from-strings
+   return "".join(i for i in s if ord(i)<126 and ord(i)>31)
+
+def removeSubject(string, subj):
+    if(string.find(subj) > 0):
+      string = string.replace(subj, "")
+    return string
+
+
 
 
 #credits: https://gist.github.com/slowkow/7a7f61f495e3dbb7e3d767f97bd7304b
