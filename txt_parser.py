@@ -6,7 +6,6 @@ def get_org_and_sub(lines):
 
   Input:
   path: path of type string of the desired txt file 
-
   '''
   header = lines[0]
 
@@ -20,6 +19,11 @@ def get_org_and_sub(lines):
 
 
 def find_url(string):
+    """
+    Method returning links (concatenated by commas) obtained from an input 
+
+    string: the string from which the links are to be extracted from 
+    """
     # Find all the Strings that match the pattern
     regex = r"(https?://\S+)"
     urls = re.findall(regex, string)
@@ -27,6 +31,11 @@ def find_url(string):
     return urls
 
 def remove_url(string):
+    """
+    Method removing all links from an string
+
+    string: the string from which the links are to be removed from 
+    """
     # Find all the Strings that match the pattern
     regex = r"(https?://\S+)"
     urls = re.findall(regex, string)
@@ -36,10 +45,24 @@ def remove_url(string):
     return string
 
 def removeNonAscii(s): 
+   """
+   Method used to remove all non-ascii characters from a text 
+
+   s: the string from which non-ascii characters are to be removed from 
+   """
    #credit: https://stackoverflow.com/questions/20183669/remove-formatting-from-strings
    return "".join(i for i in s if ord(i)<126 and ord(i)>31)
 
 def removeSubject(string, subj):
+    """
+    Method used to remove the subj from a string.
+
+    If subj not in string, string is returned unchanged 
+
+    string: the string from which subj is to be removed from 
+    subj: the string which is to be removed if present
+    
+    """
     if(string.find(subj) > 0):
       string = string.replace(subj, "")
     return string
@@ -49,6 +72,13 @@ def removeSubject(string, subj):
 
 #credits: https://gist.github.com/slowkow/7a7f61f495e3dbb7e3d767f97bd7304b
 def remove_emoji(string):
+    """
+    Method which returns a string after removing all emjoiis from it 
+
+    Does not work on certain edge cases like the clock emoji 
+
+    string: the string from which emjoiis are to be removed from 
+    """
     emoji_pattern = re.compile("["
                                u"\U0001F600-\U0001F64F"  # emoticons
                                u"\U0001F300-\U0001F5FF"  # symbols & pictographs

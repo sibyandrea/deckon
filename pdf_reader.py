@@ -21,6 +21,13 @@ WICC_collective.append(WICC_OPPS)
 
 
 def read_pdf(pdf_path):
+    """
+    Method which reads a pdf input to scrape out information and returns a Pandas 
+    dataframe object containing all scraped opportunities from the email
+
+    pdf_path : string representing the path of downloaded email file 
+    
+    """
     # Creating a PDF reader object
     with open(pdf_path, 'rb') as file:
         reader = PyPDF2.PdfReader(file)
@@ -52,7 +59,7 @@ def read_pdf(pdf_path):
                 # topper = p1_list[2]
                 # topper_start = topper[:5]
                 # topper_end = topper[]
-                
+
                 # print("ORG: ", org)
                 # print("SUBJ: ", subj)
                 print(p1_list)
@@ -139,6 +146,14 @@ def read_pdf(pdf_path):
     #     testing_txt_file(pdf_path=pdf_path, text=text)
  
 def testing_txt_file(pdf_path, text):
+    """
+    Method which returns a txt file of information scraped from an inputted pdf.
+
+    This method is used for testing purposes: to vizualize the scrapped data.
+
+    pdf_path: string representing the path of pdf inputted, used to name the txt tile 
+    text: scraped data from the inputted pdf
+    """
     # # TESTING PURPOSES
     #storing parsed text into a txt for vizualization >>>>>>>>
     name_index = pdf_path.rindex("/") + 1 #obtaining the naming convention for the file --- storage?
@@ -157,11 +172,17 @@ def testing_txt_file(pdf_path, text):
     file.close()
 
 def testing_txt_file2(name, text):
+    """
+    Method which returns a txt file of information scraped
+
+    This method is used for testing purposes: to vizualize the scrapped data.
+
+    name: a string used to name the txt tile 
+    text: scraped data which is to be vizualized 
+    """
     # # TESTING PURPOSES
     #storing parsed text into a txt for vizualization >>>>>>>>
-    
     file_name = name
-
     file = open(file_name, "w")
 
     # Write string to file
@@ -176,17 +197,23 @@ def testing_txt_file2(name, text):
 
 
 def parsing_links(page_text, links):
+    """
+    Method returning a modified list of links obtained from text of a page 
+
+    page_text: string representing text scrapped from a page of a pdf file 
+    links: the list to which the links are to be appended to 
+    """
     # Parsing through each page of text
-        #if there is a visible url, the parser will save it 
-        for line in page_text.split('\n'):
-            if line.strip():  # If line is not empty
-                link = txt_parser.find_url(line.strip())
-                if(len(link) > 0):
-                    links.append(link)
-                else:
-                    links.append("")
-        
-        return links
+    #if there is a visible url, the parser will save it 
+    for line in page_text.split('\n'):
+        if line.strip():  # If line is not empty
+            link = txt_parser.find_url(line.strip())
+            if(len(link) > 0):
+                links.append(link)
+            else:
+                links.append("")
+    
+    return links
 
 
 
