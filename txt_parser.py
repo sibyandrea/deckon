@@ -17,6 +17,14 @@ def get_org_and_sub(lines):
 
   return b, sub
 
+def get_cat(info):
+  '''
+  Function retrieves the type of opportunity according to given classifications
+  '''
+  string = info[0]
+
+  return string
+
 
 def find_url(string):
     """

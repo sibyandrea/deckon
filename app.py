@@ -36,6 +36,11 @@ if __name__ == '__main__':
 import sys
 import os
 from flask import Flask, render_template, request, jsonify
+import pdf_reader as pr
+import os 
+import pandas as pd 
+import txt_parser as tp
+import numpy as np
 
 # Flask application
 app = Flask(__name__, template_folder='templates')
@@ -64,6 +69,9 @@ def upload():
     if template_file.filename != '':
       # Save the file
       template_file.save(os.path.join(app.config['UPLOAD_FOLDER'], template_file.filename))
+
+  # Run main.py 
+  exec(open('main_code.py').read())
 
   return jsonify({'message': 'Template files uploaded successfully.'})
 
